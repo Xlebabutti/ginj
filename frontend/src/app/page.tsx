@@ -1,9 +1,9 @@
-import { Button } from '@/shared/ui/button';
+import { AppHeader } from '@/widgets/app-header/app-header';
 
 export default function Home() {
     return (
         <div className="">
-            <Button>asdsad</Button>
+            <AppHeader />
         </div>
     );
 }
