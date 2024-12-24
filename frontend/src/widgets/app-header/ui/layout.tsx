@@ -19,7 +19,7 @@ export default function Layout({
     actions?: React.ReactNode;
 }) {
     return (
-        <header className="z-100 w-full">
+        <header className="sticky top-0 z-50 w-full border-b-2 border-indigo-200 backdrop-blur">
             <div className="flex h-32 items-center justify-between px-9">
                 <div className="mr-2 md:hidden">
                     <Sheet>

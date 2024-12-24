@@ -1,15 +1,11 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Comfortaa } from 'next/font/google';
 import './globals.css';
 import ParticlesBackground from '@/widgets/app-particles/app-particles';
+import { AppHeader } from '@/widgets/app-header/app-header';
 
-const geistSans = Geist({
+const geistSans = Comfortaa({
     variable: '--font-geist-sans',
-    subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-    variable: '--font-geist-mono',
     subsets: ['latin'],
 });
 
@@ -24,11 +20,12 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
-            <body
-                className={`${geistSans.variable} ${geistMono.variable} dark antialiased`}
-            >
-                <ParticlesBackground>{children}</ParticlesBackground>
+        <html lang="ru">
+            <body className={`${geistSans.className} dark antialiased`}>
+                <ParticlesBackground>
+                    <AppHeader />
+                    {children}
+                </ParticlesBackground>
             </body>
         </html>
     );

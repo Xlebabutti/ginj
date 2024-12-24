@@ -82,3 +82,11 @@
         @apply bg-background text-foreground;
     }
 }
+
+.about-text::before {
+    font-weight: 400;
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 10vh;
+    text-align: center;
+}
