@@ -3,6 +3,7 @@
 import { gsap } from 'gsap';
 import Link from 'next/link';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import { SwapText } from '@/features/swap-text';
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -12,40 +13,36 @@ export default function MainNav() {
     };
     return (
         <nav className="text- flex flex-col gap-12 text-xl font-light md:flex-row md:items-center">
-            <Link
-                className="text-white hover:underline hover:decoration-white/75 hover:decoration-[2px] hover:underline-offset-8"
-                href="#services"
-                onClick={() => scrollToSection('#services')}
-            >
-                услуги
+            <Link href="#services" onClick={() => scrollToSection('#services')}>
+                <SwapText>Услуги</SwapText>
             </Link>
             <Link
                 className="text-white hover:underline hover:decoration-white/75 hover:decoration-[2px] hover:underline-offset-8"
                 href="#about"
                 onClick={() => scrollToSection('#about')}
             >
-                о нас
+                <SwapText>о нас</SwapText>
             </Link>
             <Link
                 className="text-white hover:underline hover:decoration-white/75 hover:decoration-[2px] hover:underline-offset-8"
                 href="#pricing"
                 onClick={() => scrollToSection('#pricing')}
             >
-                тарифы
+                <SwapText>тарифы</SwapText>
             </Link>
             <Link
                 className="text-white hover:underline hover:decoration-white/75 hover:decoration-[2px] hover:underline-offset-8"
                 href="#contact"
                 onClick={() => scrollToSection('#contact')}
             >
-                контакты
+                <SwapText>контакты</SwapText>
             </Link>
             <Link
                 className="text-white hover:underline hover:decoration-white/75 hover:decoration-[2px] hover:underline-offset-8"
                 href="#faq"
                 onClick={() => scrollToSection('#faq')}
             >
-                FAQ
+                <SwapText>FAQ</SwapText>
             </Link>
         </nav>
     );

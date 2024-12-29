@@ -64,13 +64,10 @@ const AboutText = () => {
 
     return (
         <div>
-            <div className="w-full">
-                Организация и проведение онлайн-трансляций
-            </div>
-            <div className="relative mt-[750px] flex w-screen flex-col px-8 py-6">
+            <div className="relative flex w-screen flex-col px-8 py-6">
                 <h2 className="about-text grid gap-8 text-center text-[8vw] leading-[0.8]">
                     <span className="target uppercase">Организация</span>
-                    <span className="target uppercase">трансляции</span>
+                    <span className="target uppercase">трансляций</span>
                     <span className="target mb-[100px] uppercase">
                         на высшем уровне
                     </span>

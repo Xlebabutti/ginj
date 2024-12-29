@@ -1,4 +1,7 @@
 import AboutPage from '@/entities/about-page/about-page';
+import ContactPage from '@/entities/contact-page/contact-page';
+import PricingPage from '@/entities/pricing-page/pricing-page';
+import { MenuButton } from '@/features/swap-text';
 
 export default async function Home() {
     return (
@@ -41,22 +44,8 @@ export default async function Home() {
                 </div>
             </section>
             <AboutPage />
-            <section
-                id="pricing"
-                className="h-[calc(100vh-130px)] bg-cover bg-center"
-            >
-                <div className="container mx-auto flex h-full items-center justify-center">
-                    <div className="text-left">pricing</div>
-                </div>
-            </section>
-            <section
-                id="contact"
-                className="h-[calc(100vh-130px)] bg-cover bg-center"
-            >
-                <div className="container mx-auto flex h-full items-center justify-center">
-                    <div className="text-left">контакт</div>
-                </div>
-            </section>
+            <PricingPage />
+            <ContactPage />
             <section
                 id="faq"
                 className="h-[calc(100vh-130px)] bg-cover bg-center"
