@@ -1,7 +1,6 @@
 import AboutPage from '@/entities/about-page/about-page';
 import ContactPage from '@/entities/contact-page/contact-page';
 import PricingPage from '@/entities/pricing-page/pricing-page';
-import { MenuButton } from '@/features/swap-text';
 
 export default async function Home() {
     return (
