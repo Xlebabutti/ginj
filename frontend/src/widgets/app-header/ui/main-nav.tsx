@@ -39,6 +39,12 @@ export default function MainNav() {
             </Link>
             <Link
                 className="text-white hover:underline hover:decoration-white/75 hover:decoration-[2px] hover:underline-offset-8"
+                href="/platform"
+            >
+                <SwapText>Платформа</SwapText>
+            </Link>
+            <Link
+                className="text-white hover:underline hover:decoration-white/75 hover:decoration-[2px] hover:underline-offset-8"
                 href="#faq"
                 onClick={() => scrollToSection('#faq')}
             >
