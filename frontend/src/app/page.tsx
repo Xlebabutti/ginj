@@ -1,6 +1,7 @@
 import AboutPage from '@/entities/about-page/about-page';
 import ContactPage from '@/entities/contact-page/contact-page';
 import PricingPage from '@/entities/pricing-page/pricing-page';
+import UserList from './user';
 
 export default async function Home() {
     return (
@@ -53,6 +54,7 @@ export default async function Home() {
                     <div className="text-left">faq</div>
                 </div>
             </section>
+            <UserList></UserList>
         </main>
     );
 }

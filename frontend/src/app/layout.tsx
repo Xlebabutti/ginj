@@ -3,6 +3,7 @@ import { Comfortaa } from 'next/font/google';
 import './globals.css';
 import ParticlesBackground from '@/widgets/app-particles/app-particles';
 import { AppHeader } from '@/widgets/app-header/app-header';
+import { AppProvider } from '@/providers';
 
 const geistSans = Comfortaa({
     variable: '--font-geist-sans',
@@ -24,7 +25,7 @@ export default function RootLayout({
             <body className={`${geistSans.className} dark antialiased`}>
                 <ParticlesBackground>
                     <AppHeader />
-                    {children}
+                    <AppProvider>{children}</AppProvider>
                 </ParticlesBackground>
             </body>
         </html>
