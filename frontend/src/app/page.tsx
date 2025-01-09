@@ -11,10 +11,10 @@ export default async function Home() {
             >
                 <div className="container mx-auto flex h-full items-center justify-center">
                     <div className="flex-1 text-left">
-                        <h1 className="mb-4 text-5xl font-bold text-blue-500">
+                        <h1 className="mb-4 text-6xl font-bold text-blue-500">
                             Организация и проведение онлайн-трансляций
                         </h1>
-                        <p className="mb-8 text-white">
+                        <p className="mb-8 text-2xl text-white">
                             За 2024 год мы провели около 200 онлайн-мероприятий
                             с посещаемостью до 30000 зрителей. И это не предел
                             наших возможностей.
