@@ -1,0 +1,76 @@
+import {
+	BadRequestException,
+	Injectable,
+	NotFoundException
+} from '@nestjs/common'
+import type { Request } from 'express'
+
+import { TokenType, User } from '@/prisma/generated'
+
+import { PrismaService } from '../../../core/prisma/prisma.service'
+import { generateToken } from '../../../shared/utils/generate-token.util'
+import { getSessionMetadata } from '../../../shared/utils/session-metadata.util'
+import { saveSession } from '../../../shared/utils/session.util'
+
+import { VerificationInput } from './inputs/verification.input'
+
+@Injectable()
+export class VerificationService {
+	public constructor(private readonly prismaService: PrismaService) {}
+
+	public async verify(
+		req: Request,
+		input: VerificationInput,
+		userAgent: string
+	) {
+		const { token } = input
+
+		const existingToken = await this.prismaService.token.findUnique({
+			where: {
+				token,
+				type: TokenType.EMAIL_VERIFY
+			}
+		})
+
+		if (!existingToken) {
+			throw new NotFoundException('Токен не найден')
+		}
+
+		const hasExpired = new Date(existingToken.expiresIn) < new Date()
+
+		if (hasExpired) {
+			throw new BadRequestException('Токен истёк')
+		}
+
+		const user = await this.prismaService.user.update({
+			where: {
+				//@ts-ignore
+				id: existingToken.userId
+			},
+			data: {
+				isEmailVerified: true
+			}
+		})
+
+		await this.prismaService.token.delete({
+			where: {
+				id: existingToken.id,
+				type: TokenType.EMAIL_VERIFY
+			}
+		})
+
+		const metadata = getSessionMetadata(req, userAgent)
+
+		return saveSession(req, user, metadata)
+	}
+
+	public async sendVerificationToken(user: User) {
+		const verificationToken = await generateToken(
+			this.prismaService,
+			user,
+			TokenType.EMAIL_VERIFY
+		)
+
+		return true
+	}
+}
