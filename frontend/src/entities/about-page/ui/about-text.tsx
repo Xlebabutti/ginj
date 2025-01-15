@@ -58,7 +58,7 @@ const AboutText = () => {
 
         return () => {
             text.revert();
-            ScrollTrigger.kill();
+            ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
         };
     }, []);
 

@@ -1,16 +1,16 @@
-query FindAllStreams($filters: FiltersInput!) {
-	findAllStreams(filters: $filters) {
-		title
-		thumbnailUrl
-		isLive
-		user {
-			username
-			avatar
-			isVerified
-		}
-		category {
-			title
-			slug
-		}
-	}
-}
+# query FindAllStreams($filters: FiltersInput!) {
+# 	findAllStreams(filters: $filters) {
+# 		title
+# 		thumbnailUrl
+# 		isLive
+# 		user {
+# 			username
+# 			avatar
+# 			isVerified
+# 		}
+# 		category {
+# 			title
+# 			slug
+# 		}
+# 	}
+# }
