@@ -1,5 +1,5 @@
-# mutation GenerateStreamToken($data: GenerateStreamTokenInput!) {
-# 	generateStreamToken(data: $data) {
-# 		token
-# 	}
-# }
+mutation GenerateStreamToken($data: GenerateStreamTokenInput!) {
+    generateStreamToken(data: $data) {
+        token
+    }
+}

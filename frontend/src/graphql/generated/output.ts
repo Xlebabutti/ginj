@@ -33,6 +33,11 @@ export type ChangePasswordInput = {
   oldPassword: Scalars['String']['input'];
 };
 
+export type ChangeStreamInfoInput = {
+  categoryId: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+};
+
 export type CreateUserInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -50,6 +55,22 @@ export type DeviceModel = {
   browser: Scalars['String']['output'];
   os: Scalars['String']['output'];
   type: Scalars['String']['output'];
+};
+
+export type FiltersInput = {
+  searchTerm?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Float']['input']>;
+  take?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type GenerateStreamTokenInput = {
+  channelId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+};
+
+export type GenerateStreamTokenModel = {
+  __typename?: 'GenerateStreamTokenModel';
+  token: Scalars['String']['output'];
 };
 
 export type LocationModel = {
@@ -70,10 +91,12 @@ export type Mutation = {
   __typename?: 'Mutation';
   changeEmail: Scalars['Boolean']['output'];
   changePassword: Scalars['Boolean']['output'];
+  changeStreamInfo: Scalars['Boolean']['output'];
   clearSessionCookie: Scalars['Boolean']['output'];
   createIngress: Scalars['Boolean']['output'];
   createUser: Scalars['Boolean']['output'];
   deactivateAccount: AuthModel;
+  generateStreamToken: GenerateStreamTokenModel;
   loginUser: AuthModel;
   logoutUser: Scalars['Boolean']['output'];
   newPassword: Scalars['Boolean']['output'];
@@ -93,6 +116,11 @@ export type MutationChangePasswordArgs = {
 };
 
 
+export type MutationChangeStreamInfoArgs = {
+  data: ChangeStreamInfoInput;
+};
+
+
 export type MutationCreateIngressArgs = {
   ingressType: Scalars['Float']['input'];
 };
@@ -105,6 +133,11 @@ export type MutationCreateUserArgs = {
 
 export type MutationDeactivateAccountArgs = {
   data: DeactivateAccountInput;
+};
+
+
+export type MutationGenerateStreamTokenArgs = {
+  data: GenerateStreamTokenInput;
 };
 
 
@@ -142,9 +175,27 @@ export type Query = {
   __typename?: 'Query';
   findAllStreams: Array<StreamModel>;
   findAllUsers: Array<UserModel>;
+  findChannelByUsername: UserModel;
   findCurrentSession: SessionModel;
+  findFollowersCountByChannel: Scalars['Float']['output'];
   findProfile: UserModel;
+  findRandomStreams: Array<StreamModel>;
   findSessionsByUser: Array<SessionModel>;
+};
+
+
+export type QueryFindAllStreamsArgs = {
+  filters: FiltersInput;
+};
+
+
+export type QueryFindChannelByUsernameArgs = {
+  username: Scalars['String']['input'];
+};
+
+
+export type QueryFindFollowersCountByChannelArgs = {
+  channelId: Scalars['String']['input'];
 };
 
 export type ResetPasswordInput = {
@@ -256,6 +307,32 @@ export type VerifyAccountMutationVariables = Exact<{
 
 
 export type VerifyAccountMutation = { __typename?: 'Mutation', verifyAccount: { __typename?: 'AuthModel', message?: string | null, user?: { __typename?: 'UserModel', isEmailVerified: boolean } | null } };
+
+export type FindChannelByUsernameQueryVariables = Exact<{
+  username: Scalars['String']['input'];
+}>;
+
+
+export type FindChannelByUsernameQuery = { __typename?: 'Query', findChannelByUsername: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null, bio?: string | null, isVerified: boolean, stream: { __typename?: 'StreamModel', id: string, title: string, isLive: boolean, isChatEnabled: boolean, isChatFollowersOnly: boolean, isChatPremiumFollowersOnly: boolean } } };
+
+export type CreateIngressMutationVariables = Exact<{
+  ingressType: Scalars['Float']['input'];
+}>;
+
+
+export type CreateIngressMutation = { __typename?: 'Mutation', createIngress: boolean };
+
+export type GenerateStreamTokenMutationVariables = Exact<{
+  data: GenerateStreamTokenInput;
+}>;
+
+
+export type GenerateStreamTokenMutation = { __typename?: 'Mutation', generateStreamToken: { __typename?: 'GenerateStreamTokenModel', token: string } };
+
+export type ClearSessionCookieMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ClearSessionCookieMutation = { __typename?: 'Mutation', clearSessionCookie: boolean };
 
 export type FindCurrentSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -504,6 +581,153 @@ export function useVerifyAccountMutation(baseOptions?: Apollo.MutationHookOption
 export type VerifyAccountMutationHookResult = ReturnType<typeof useVerifyAccountMutation>;
 export type VerifyAccountMutationResult = Apollo.MutationResult<VerifyAccountMutation>;
 export type VerifyAccountMutationOptions = Apollo.BaseMutationOptions<VerifyAccountMutation, VerifyAccountMutationVariables>;
+export const FindChannelByUsernameDocument = gql`
+    query FindChannelByUsername($username: String!) {
+  findChannelByUsername(username: $username) {
+    id
+    username
+    displayName
+    avatar
+    bio
+    isVerified
+    stream {
+      id
+      title
+      isLive
+      isChatEnabled
+      isChatFollowersOnly
+      isChatPremiumFollowersOnly
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindChannelByUsernameQuery__
+ *
+ * To run a query within a React component, call `useFindChannelByUsernameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindChannelByUsernameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindChannelByUsernameQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useFindChannelByUsernameQuery(baseOptions: Apollo.QueryHookOptions<FindChannelByUsernameQuery, FindChannelByUsernameQueryVariables> & ({ variables: FindChannelByUsernameQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindChannelByUsernameQuery, FindChannelByUsernameQueryVariables>(FindChannelByUsernameDocument, options);
+      }
+export function useFindChannelByUsernameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindChannelByUsernameQuery, FindChannelByUsernameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindChannelByUsernameQuery, FindChannelByUsernameQueryVariables>(FindChannelByUsernameDocument, options);
+        }
+export function useFindChannelByUsernameSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindChannelByUsernameQuery, FindChannelByUsernameQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindChannelByUsernameQuery, FindChannelByUsernameQueryVariables>(FindChannelByUsernameDocument, options);
+        }
+export type FindChannelByUsernameQueryHookResult = ReturnType<typeof useFindChannelByUsernameQuery>;
+export type FindChannelByUsernameLazyQueryHookResult = ReturnType<typeof useFindChannelByUsernameLazyQuery>;
+export type FindChannelByUsernameSuspenseQueryHookResult = ReturnType<typeof useFindChannelByUsernameSuspenseQuery>;
+export type FindChannelByUsernameQueryResult = Apollo.QueryResult<FindChannelByUsernameQuery, FindChannelByUsernameQueryVariables>;
+export const CreateIngressDocument = gql`
+    mutation CreateIngress($ingressType: Float!) {
+  createIngress(ingressType: $ingressType)
+}
+    `;
+export type CreateIngressMutationFn = Apollo.MutationFunction<CreateIngressMutation, CreateIngressMutationVariables>;
+
+/**
+ * __useCreateIngressMutation__
+ *
+ * To run a mutation, you first call `useCreateIngressMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateIngressMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createIngressMutation, { data, loading, error }] = useCreateIngressMutation({
+ *   variables: {
+ *      ingressType: // value for 'ingressType'
+ *   },
+ * });
+ */
+export function useCreateIngressMutation(baseOptions?: Apollo.MutationHookOptions<CreateIngressMutation, CreateIngressMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateIngressMutation, CreateIngressMutationVariables>(CreateIngressDocument, options);
+      }
+export type CreateIngressMutationHookResult = ReturnType<typeof useCreateIngressMutation>;
+export type CreateIngressMutationResult = Apollo.MutationResult<CreateIngressMutation>;
+export type CreateIngressMutationOptions = Apollo.BaseMutationOptions<CreateIngressMutation, CreateIngressMutationVariables>;
+export const GenerateStreamTokenDocument = gql`
+    mutation GenerateStreamToken($data: GenerateStreamTokenInput!) {
+  generateStreamToken(data: $data) {
+    token
+  }
+}
+    `;
+export type GenerateStreamTokenMutationFn = Apollo.MutationFunction<GenerateStreamTokenMutation, GenerateStreamTokenMutationVariables>;
+
+/**
+ * __useGenerateStreamTokenMutation__
+ *
+ * To run a mutation, you first call `useGenerateStreamTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGenerateStreamTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [generateStreamTokenMutation, { data, loading, error }] = useGenerateStreamTokenMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useGenerateStreamTokenMutation(baseOptions?: Apollo.MutationHookOptions<GenerateStreamTokenMutation, GenerateStreamTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<GenerateStreamTokenMutation, GenerateStreamTokenMutationVariables>(GenerateStreamTokenDocument, options);
+      }
+export type GenerateStreamTokenMutationHookResult = ReturnType<typeof useGenerateStreamTokenMutation>;
+export type GenerateStreamTokenMutationResult = Apollo.MutationResult<GenerateStreamTokenMutation>;
+export type GenerateStreamTokenMutationOptions = Apollo.BaseMutationOptions<GenerateStreamTokenMutation, GenerateStreamTokenMutationVariables>;
+export const ClearSessionCookieDocument = gql`
+    mutation ClearSessionCookie {
+  clearSessionCookie
+}
+    `;
+export type ClearSessionCookieMutationFn = Apollo.MutationFunction<ClearSessionCookieMutation, ClearSessionCookieMutationVariables>;
+
+/**
+ * __useClearSessionCookieMutation__
+ *
+ * To run a mutation, you first call `useClearSessionCookieMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useClearSessionCookieMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [clearSessionCookieMutation, { data, loading, error }] = useClearSessionCookieMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useClearSessionCookieMutation(baseOptions?: Apollo.MutationHookOptions<ClearSessionCookieMutation, ClearSessionCookieMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ClearSessionCookieMutation, ClearSessionCookieMutationVariables>(ClearSessionCookieDocument, options);
+      }
+export type ClearSessionCookieMutationHookResult = ReturnType<typeof useClearSessionCookieMutation>;
+export type ClearSessionCookieMutationResult = Apollo.MutationResult<ClearSessionCookieMutation>;
+export type ClearSessionCookieMutationOptions = Apollo.BaseMutationOptions<ClearSessionCookieMutation, ClearSessionCookieMutationVariables>;
 export const FindCurrentSessionDocument = gql`
     query FindCurrentSession {
   findCurrentSession {
