@@ -67,6 +67,7 @@ export function StreamPlayer({ participant }: StreamPlayerProps) {
         .forEach((track) => {
             if (videoRef.current) {
                 track.publication.track?.attach(videoRef.current);
+                console.log(track.publication.track?.mediaStream);
             }
         });
 

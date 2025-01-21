@@ -8,6 +8,7 @@ import { JSX } from 'react';
 
 import { Skeleton } from '@/shared/ui/skeleton';
 import { StreamPlayer } from './palyer';
+import { StreamOffline } from './stream-offline';
 
 interface StreamVideoProps {
     channel: { id: '4b149bfe-6150-4fb0-b082-a54b08a95267' };
@@ -28,7 +29,9 @@ export function StreamVideo({ channel }: StreamVideoProps) {
     let content: JSX.Element;
 
     if (!participant && connectionState === ConnectionState.Connected) {
-        content = <>ofline</>;
+        content = <StreamOffline />;
+    } else if (!participant || tracks.length === 0) {
+        content = <div>loading</div>;
     } else {
         content = <StreamPlayer participant={participant} />;
     }

@@ -1,4 +1,15 @@
-import { Home, Radio, Settings } from 'lucide-react';
+import {
+    BarChart,
+    Bell,
+    HelpCircle,
+    Home,
+    Link,
+    Plus,
+    Radio,
+    Settings,
+    Store,
+    Users2,
+} from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import type { Route } from './route.interface';
@@ -14,9 +25,44 @@ export function NavUser() {
             icon: Home,
         },
         {
-            label: t('stream'),
-            href: '/stream',
+            label: t('streams'),
+            href: '/streams',
             icon: Radio,
+        },
+        {
+            label: t('createStream'),
+            href: '/create-stream',
+            icon: Plus,
+        },
+        {
+            label: t('library'),
+            href: '/library',
+            icon: Store,
+        },
+        {
+            label: t('chat'),
+            href: '/chat',
+            icon: Users2,
+        },
+        {
+            label: t('analytics'),
+            href: '/analytics',
+            icon: BarChart,
+        },
+        {
+            label: t('integrations'),
+            href: '/integrations',
+            icon: Link,
+        },
+        {
+            label: t('support'),
+            href: '/support',
+            icon: HelpCircle,
+        },
+        {
+            label: t('notifications'),
+            href: '/notifications',
+            icon: Bell,
         },
         {
             label: t('settings'),
