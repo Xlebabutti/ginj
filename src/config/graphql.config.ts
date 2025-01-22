@@ -1,10 +1,9 @@
-//@ts-ignore
 //@ts-nocheck
 import type { ApolloDriverConfig } from '@nestjs/apollo'
 import { ConfigService } from '@nestjs/config'
 import { join } from 'path'
 
-import { isDev } from '../shared/utils/is-dev.util'
+import { isDev } from '@/shared/utils/is-dev.util'
 
 export function getGraphQLConfig(
 	configService: ConfigService

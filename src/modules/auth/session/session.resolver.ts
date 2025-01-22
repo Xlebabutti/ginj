@@ -2,7 +2,7 @@ import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql'
 
 import { Authorization } from '@/shared/decorators/auth.decorator'
 import { UserAgent } from '@/shared/decorators/user-agent.decorator'
-import { type GqlContext } from '@/shared/types/gql-context.types'
+import type { GqlContext } from '@/shared/types/gql-context.types'
 
 import { AuthModel } from '../account/models/auth.model'
 

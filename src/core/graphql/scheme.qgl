@@ -16,6 +16,11 @@ input ChangePasswordInput {
   oldPassword: String!
 }
 
+input ChangeStreamInfoInput {
+  categoryId: String!
+  title: String!
+}
+
 input CreateUserInput {
   email: String!
   password: String!
@@ -27,10 +32,31 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input DeactivateAccountInput {
+  email: String!
+  password: String!
+  pin: String
+}
+
 type DeviceModel {
   browser: String!
   os: String!
   type: String!
+}
+
+input FiltersInput {
+  searchTerm: String
+  skip: Float
+  take: Float
+}
+
+input GenerateStreamTokenInput {
+  channelId: String!
+  userId: String!
+}
+
+type GenerateStreamTokenModel {
+  token: String!
 }
 
 type LocationModel {
@@ -49,21 +75,39 @@ input LoginInput {
 type Mutation {
   changeEmail(data: ChangeEmailInput!): Boolean!
   changePassword(data: ChangePasswordInput!): Boolean!
+  changeStreamInfo(data: ChangeStreamInfoInput!): Boolean!
   clearSessionCookie: Boolean!
   createIngress(ingressType: Float!): Boolean!
   createUser(data: CreateUserInput!): Boolean!
+  deactivateAccount(data: DeactivateAccountInput!): AuthModel!
+  generateStreamToken(data: GenerateStreamTokenInput!): GenerateStreamTokenModel!
   loginUser(data: LoginInput!): AuthModel!
   logoutUser: Boolean!
+  newPassword(data: NewPasswordInput!): Boolean!
   removeSession(id: String!): Boolean!
+  resetPassword(data: ResetPasswordInput!): Boolean!
   verifyAccount(data: VerificationInput!): AuthModel!
 }
 
+input NewPasswordInput {
+  password: String!
+  passwordRepeat: String!
+  token: String!
+}
+
 type Query {
-  findAllStreams: [StreamModel!]!
+  findAllStreams(filters: FiltersInput!): [StreamModel!]!
   findAllUsers: [UserModel!]!
+  findChannelByUsername(username: String!): UserModel!
   findCurrentSession: SessionModel!
+  findFollowersCountByChannel(channelId: String!): Float!
   findProfile: UserModel!
+  findRandomStreams: [StreamModel!]!
   findSessionsByUser: [SessionModel!]!
+}
+
+input ResetPasswordInput {
+  email: String!
 }
 
 type SessionMetadataModel {

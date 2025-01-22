@@ -10,10 +10,10 @@ import { verify } from 'argon2'
 import type { Request } from 'express'
 import { TOTP } from 'otpauth'
 
-import { PrismaService } from '../../../core/prisma/prisma.service'
-import { RedisService } from '../../../core/redis/redis.service'
-import { getSessionMetadata } from '../../../shared/utils/session-metadata.util'
-import { destroySession, saveSession } from '../../../shared/utils/session.util'
+import { PrismaService } from '@/core/prisma/prisma.service'
+import { RedisService } from '@/core/redis/redis.service'
+import { getSessionMetadata } from '@/shared/utils/session-metadata.util'
+import { destroySession, saveSession } from '@/shared/utils/session.util'
 
 import { VerificationService } from './../verification/verification.service'
 import { LoginInput } from './inputs/login.input'
@@ -55,7 +55,7 @@ export class SessionService {
 
 		userSessions.sort((a, b) => b.createdAt - a.createdAt)
 
-		return userSessions.filter(session => session.id !== req.session.id)
+		return userSessions.filter(session => session.id === req.session.id)
 	}
 
 	public async findCurrent(req: any) {
@@ -105,31 +105,31 @@ export class SessionService {
 			)
 		}
 
-		if (user.isTotpEnabled) {
-			if (!pin) {
-				return {
-					message: 'Необходим код для завершения авторизации'
-				}
-			}
+		// if (user.isTotpEnabled) {
+		// 	if (!pin) {
+		// 		return {
+		// 			message: 'Необходим код для завершения авторизации'
+		// 		}
+		// 	}
 
-			const totp = new TOTP({
-				issuer: 'TeaStream',
-				label: `${user.email}`,
-				algorithm: 'SHA1',
-				digits: 6,
-				//@ts-ignore
-				secret: user.totpSecret
-			})
+		// 	const totp = new TOTP({
+		// 		issuer: 'ginj',
+		// 		label: `${user.email}`,
+		// 		algorithm: 'SHA1',
+		// 		digits: 6,
+		// 		//@ts-ignore
+		// 		secret: user.totpSecret
+		// 	})
 
-			const delta = totp.validate({ token: pin })
+		// 	const delta = totp.validate({ token: pin })
 
-			if (delta === null) {
-				throw new BadRequestException('Неверный код')
-			}
-		}
+		// 	if (delta === null) {
+		// 		throw new BadRequestException('Неверный код')
+		// 	}
+		// }
 
 		const metadata = getSessionMetadata(req, userAgent)
-
+		console.log('metadata', metadata)
 		return saveSession(req, user, metadata)
 	}
 

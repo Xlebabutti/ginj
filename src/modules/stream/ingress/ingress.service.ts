@@ -6,8 +6,9 @@ import {
 	IngressVideoEncodingPreset
 } from 'livekit-server-sdk'
 
-import type { User } from '../../../../prisma/generated'
-import { PrismaService } from '../../../core/prisma/prisma.service'
+import { PrismaService } from '@/core/prisma/prisma.service'
+import type { User } from '@/prisma/generated'
+
 import { LivekitService } from '../../libs/livekit/livekit.service'
 
 @Injectable()
@@ -17,14 +18,15 @@ export class IngressService {
 		private readonly livekitService: LivekitService
 	) {}
 
-	public async create(ingressType: IngressInput) {
-		await this.resetIngresses()
+	public async create(user: User, ingressType: IngressInput) {
+		console.log('ttttttttttttttttt')
+		await this.resetIngresses(user)
 
 		const options: CreateIngressOptions = {
-			name: 'sdf',
-			roomName: 'test_room',
-			participantIdentity: 'test_participant',
-			participantName: 'Test Participant'
+			name: user.username,
+			roomName: user.id,
+			participantName: user.username,
+			participantIdentity: user.id
 		}
 
 		if (ingressType === IngressInput.WHIP_INPUT) {
@@ -40,38 +42,43 @@ export class IngressService {
 			}
 		}
 
-		console.log('Ingress Type:', ingressType)
-		console.log('Options:', options)
+		const ingress = await this.livekitService.ingress.createIngress(
+			ingressType,
+			options
+		)
 
-		try {
-			const ingress = await this.livekitService.ingress.createIngress(
-				ingressType,
-				options
-			)
-			console.log('Ingress created:', ingress)
-		} catch (error) {
-			console.error(
-				'Error creating ingress:',
-				error.response?.data || error.message
-			)
+		if (!ingress || !ingress.url || !ingress.streamKey) {
 			throw new BadRequestException('Не удалось создать входной поток')
 		}
+
+		await this.prismaService.stream.update({
+			where: {
+				userId: user.id
+			},
+			data: {
+				ingressId: ingress.ingressId,
+				serverUrl: ingress.url,
+				streamKey: ingress.streamKey
+			}
+		})
 
 		return true
 	}
 
-	private async resetIngresses() {
+	private async resetIngresses(user: User) {
 		const ingresses = await this.livekitService.ingress.listIngress({
-			roomName: 'test_room'
+			roomName: user.id
 		})
 
-		const rooms = await this.livekitService.room.listRooms([])
+		const rooms = await this.livekitService.room.listRooms([user.id])
 
 		for (const room of rooms) {
+			console.log(room, 'rooms ***********')
 			await this.livekitService.room.deleteRoom(room.name)
 		}
 
 		for (const ingress of ingresses) {
+			console.log(ingress, 'rooms ***********')
 			if (ingress.ingressId) {
 				await this.livekitService.ingress.deleteIngress(
 					ingress.ingressId

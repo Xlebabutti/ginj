@@ -5,18 +5,21 @@ import {
 } from '@nestjs/common'
 import type { Request } from 'express'
 
+import { PrismaService } from '@/core/prisma/prisma.service'
+import { MailService } from '@/modules/libs/mail/mail.service'
 import { TokenType, User } from '@/prisma/generated'
-
-import { PrismaService } from '../../../core/prisma/prisma.service'
-import { generateToken } from '../../../shared/utils/generate-token.util'
-import { getSessionMetadata } from '../../../shared/utils/session-metadata.util'
-import { saveSession } from '../../../shared/utils/session.util'
+import { generateToken } from '@/shared/utils/generate-token.util'
+import { getSessionMetadata } from '@/shared/utils/session-metadata.util'
+import { saveSession } from '@/shared/utils/session.util'
 
 import { VerificationInput } from './inputs/verification.input'
 
 @Injectable()
 export class VerificationService {
-	public constructor(private readonly prismaService: PrismaService) {}
+	public constructor(
+		private readonly prismaService: PrismaService,
+		private readonly mailSerivce: MailService
+	) {}
 
 	public async verify(
 		req: Request,
@@ -69,6 +72,11 @@ export class VerificationService {
 			this.prismaService,
 			user,
 			TokenType.EMAIL_VERIFY
+		)
+
+		await this.mailSerivce.sendVerificationToken(
+			user.email,
+			verificationToken.token
 		)
 
 		return true

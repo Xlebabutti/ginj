@@ -24,7 +24,7 @@ export function saveSession(
 					)
 				)
 			}
-
+			console.log('сохранили сессию')
 			resolve({ user })
 		})
 	})

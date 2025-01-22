@@ -4,6 +4,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
 import { getGraphQLConfig } from 'src/config/graphql.config'
 
+import { PasswordRecoveryModule } from '@/modules/auth/password-recovery/password-recovery.module'
+import { TotpModel } from '@/modules/auth/totp/models/totp.model'
+import { ChannelModule } from '@/modules/channel/channel.module'
+import { MailModule } from '@/modules/libs/mail/mail.module'
+import { TelegramModule } from '@/modules/libs/telegram/telegram.module'
+
 import { getLiveKitConfig } from '../config/livekit.config'
 import { AccountModule } from '../modules/auth/account/account.module'
 import { SessionModule } from '../modules/auth/session/session.module'
@@ -13,6 +19,7 @@ import { IngressModule } from '../modules/stream/ingress/ingress.module'
 import { StreamModule } from '../modules/stream/stream.module'
 import { IS_DEV_ENV } from '../shared/utils/is-dev.util'
 
+import { DeactivateModule } from './../modules/auth/deactivate/deactivate.module'
 import { PrismaModule } from './prisma/prisma.module'
 import { RedisModule } from './redis/redis.module'
 
@@ -35,12 +42,18 @@ import { RedisModule } from './redis/redis.module'
 		}),
 		PrismaModule,
 		RedisModule,
+		MailModule,
 		LivekitModule,
+		TelegramModule,
 		StreamModule,
+		IngressModule,
 		AccountModule,
 		SessionModule,
-		IngressModule,
-		VerificationModule
+		ChannelModule,
+		DeactivateModule,
+		VerificationModule,
+		PasswordRecoveryModule,
+		TotpModel
 	]
 })
 export class CoreModule {}

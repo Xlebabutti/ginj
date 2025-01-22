@@ -7,7 +7,7 @@ export function getLiveKitConfig(
 ): TypeLiveKitOptions {
 	const apiUrl = configService.getOrThrow<string>('LIVEKIT_API_URL')
 	const apiKey = configService.getOrThrow<string>('LIVEKIT_API_KEY')
-	const apiSecret = configService.getOrThrow<string>('LIVEKIT_SECRET_KEY')
+	const apiSecret = configService.getOrThrow<string>('LIVEKIT_API_SECRET')
 
 	console.log('LiveKit Config:', { apiUrl, apiKey, apiSecret })
 

@@ -1,11 +1,11 @@
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql'
 
 import type { User } from '@/prisma/generated'
+import { Authorization } from '@/shared/decorators/auth.decorator'
+import { Authorized } from '@/shared/decorators/authorized.decorator'
+import { UserAgent } from '@/shared/decorators/user-agent.decorator'
+import { GqlContext } from '@/shared/types/gql-context.types'
 
-import { Authorization } from '../../../shared/decorators/auth.decorator'
-import { Authorized } from '../../../shared/decorators/authorized.decorator'
-import { UserAgent } from '../../../shared/decorators/user-agent.decorator'
-import { GqlContext } from '../../../shared/types/gql-context.types'
 import { AuthModel } from '../account/models/auth.model'
 
 import { DeactivateService } from './deactivate.service'

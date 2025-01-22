@@ -4,9 +4,8 @@ import { encode } from 'hi-base32'
 import { TOTP } from 'otpauth'
 import * as QRCode from 'qrcode'
 
+import { PrismaService } from '@/core/prisma/prisma.service'
 import type { User } from '@/prisma/generated'
-
-import { PrismaService } from '../../../core/prisma/prisma.service'
 
 import { EnableTotpInput } from './inputs/enable-totp.input'
 
