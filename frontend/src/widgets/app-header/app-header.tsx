@@ -1,4 +1,3 @@
-import { Button } from '@/shared/ui/button';
 import Layout from './ui/layout';
 import MainNav from './ui/main-nav';
 import Logo from './ui/logo';
