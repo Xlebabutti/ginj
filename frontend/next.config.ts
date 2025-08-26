@@ -1,5 +1,18 @@
 import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
 
-const nextConfig: NextConfig = {};
+const withNextIntl = createNextIntlPlugin('./src/shared/lib/i18n/request.ts');
 
-export default nextConfig;
+const nextConfig: NextConfig = {
+    reactStrictMode: true,
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: '88d6197c-0d1c-43b9-a1b3-806e8d04acc1.selstorage.ru',
+            },
+        ],
+    },
+};
+
+export default withNextIntl(nextConfig);

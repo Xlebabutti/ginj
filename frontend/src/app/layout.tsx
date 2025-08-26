@@ -2,7 +2,11 @@ import type { Metadata } from 'next';
 import { Comfortaa } from 'next/font/google';
 import './globals.css';
 import ParticlesBackground from '@/widgets/app-particles/app-particles';
-import { AppHeader } from '@/widgets/app-header/app-header';
+import { AppProvider } from '@/providers';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
+import { AppSidebar } from '@/features/sidebar/app-sidebar';
+import { AppWraper } from './app-wraper';
 
 const geistSans = Comfortaa({
     variable: '--font-geist-sans',
@@ -14,17 +18,28 @@ export const metadata: Metadata = {
     description: 'Трансляции совершенно нового качества',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const locale = await getLocale();
+    const messages = await getMessages();
+
     return (
-        <html lang="ru">
+        <html lang={locale}>
             <body className={`${geistSans.className} dark antialiased`}>
                 <ParticlesBackground>
-                    <AppHeader />
-                    {children}
+                    <NextIntlClientProvider messages={messages}>
+                        <AppProvider>
+                            <div className="flex h-full flex-col">
+                                <div className="flex-1">
+                                    <AppSidebar />
+                                    <AppWraper>{children}</AppWraper>
+                                </div>
+                            </div>
+                        </AppProvider>
+                    </NextIntlClientProvider>
                 </ParticlesBackground>
             </body>
         </html>
