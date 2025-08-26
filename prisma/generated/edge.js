@@ -220,7 +220,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\Vadim\\Desktop\\work\\test-yandex\\ginj\\backend\\prisma\\generated",
+      "value": "C:\\Users\\user\\Desktop\\works\\ginj\\prisma\\generated",
       "fromEnvVar": null
     },
     "config": {
@@ -234,7 +234,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\Vadim\\Desktop\\work\\test-yandex\\ginj\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\user\\Desktop\\works\\ginj\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
